@@ -1,21 +1,30 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cyber_kaji_app/home_screen.dart';
 import 'package:cyber_kaji_app/record_screen.dart';
 import 'package:cyber_kaji_app/mypage_screen.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
+  const MyHomePage({super.key, required this.user});
+  final Map<String, dynamic>? user;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  static final _screens = [
+  Map<String, dynamic>? user = {};
+  @override
+  void initState() {
+    super.initState();
+    user = widget.user;
+  }
+
+//ナビゲーションバーのウィジェット
+  late final List _screens = [
     const HomeScreen(),
     RecordPage(),
-    const MyPageScreen(),
+    MyPageScreen(user: user),
   ];
   int _selectedIndex = 0;
   void _onItemTapped(int index) {
@@ -29,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Color(0xffff9a7e),
+        selectedItemColor: const Color(0xffff9a7e),
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
         items: const <BottomNavigationBarItem>[
@@ -41,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
               icon: Icon(Icons.person_outlined, size: 35), label: 'マイページ'),
         ],
         type: BottomNavigationBarType.fixed,
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
