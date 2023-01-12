@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "440690514162",
+    "project_id": "cyber-kaji-app",
+    "storage_bucket": "cyber-kaji-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440690514162:android:abcdd83c7ef06dc0d2586b",
+        "android_client_info": {
+          "package_name": "com.example.cyber_kaji_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440690514162-j9if870eqtk9qudpmhrooisujnqe2ai6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsFGNuc3DI8SB0SAbGkXruyifA1gad1Kw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440690514162-j9if870eqtk9qudpmhrooisujnqe2ai6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
