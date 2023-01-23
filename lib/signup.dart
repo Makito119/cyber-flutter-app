@@ -63,15 +63,15 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xffffcda8),
+        backgroundColor: const Color(0xffffcda8),
         body: Center(
           child: Container(
-            padding: EdgeInsets.all(32),
+            padding: const EdgeInsets.all(32),
             child: Column(
               children: <Widget>[
                 const SizedBox(height: 8),
                 TextFormField(
-                  decoration: InputDecoration(labelText: "名前"),
+                  decoration: const InputDecoration(labelText: "名前"),
                   onChanged: (String value) {
                     setState(() {
                       name = value;
@@ -80,7 +80,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 TextFormField(
                   // テキスト入力のラベルを設定
-                  decoration: InputDecoration(labelText: "メールアドレス"),
+                  decoration: const InputDecoration(labelText: "メールアドレス"),
                   onChanged: (String value) {
                     setState(() {
                       newUserEmail = value;
@@ -89,7 +89,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 const SizedBox(height: 8),
                 TextFormField(
-                  decoration: InputDecoration(labelText: "パスワード（６文字以上）"),
+                  decoration: const InputDecoration(labelText: "パスワード（６文字以上）"),
                   // パスワードが見えないようにする
                   obscureText: true,
                   onChanged: (String value) {
@@ -100,11 +100,11 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 Row(
                   children: [
-                    Text(
+                    const Text(
                       '身分',
                       style: TextStyle(fontSize: 20),
                     ),
-                    Padding(padding: EdgeInsets.only(left: 20)),
+                    const Padding(padding: EdgeInsets.only(left: 20)),
                     DropdownButton(
                         items: _items,
                         value: _selectItem,
@@ -155,7 +155,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         'name': name,
                         'email': newUserEmail,
                         'identity': identity,
-                        'cid': _uid
+                        'cid': _uid,
+                        'joblist':FieldValue.arrayUnion([]),
                       });
                       final User user = result.user!;
                       print(user);

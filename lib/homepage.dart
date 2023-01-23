@@ -22,8 +22,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
 //ナビゲーションバーのウィジェット
   late final List _screens = [
-    const HomeScreen(),
-    RecordPage(),
+    HomeScreen(user:user),
+    RecordPage(user:user),
     MyPageScreen(user: user),
   ];
   int _selectedIndex = 0;

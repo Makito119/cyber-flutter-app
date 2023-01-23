@@ -1,8 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cyber_kaji_app/home_screen.dart';
 import 'package:cyber_kaji_app/homepage.dart';
-import 'package:cyber_kaji_app/record_screen.dart';
-import 'package:cyber_kaji_app/mypage_screen.dart';
 import 'package:cyber_kaji_app/signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +14,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  //デバッグ用ログイン省略
+  String devEmail="hiromochi12182@gmail.com";
+  String devPassword="mochimochi2";
+  bool omitLogin = false;
+
   String newUserEmail = "";
   // 入力されたパスワード
   String newUserPassword = "";
@@ -35,15 +38,15 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xffffcda8),
+        backgroundColor: const Color(0xffffcda8),
         body: Center(
           child: Container(
-            padding: EdgeInsets.all(32),
+            padding: const EdgeInsets.all(32),
             child: Column(
               children: <Widget>[
                 const SizedBox(height: 32),
                 TextFormField(
-                  decoration: InputDecoration(labelText: "メールアドレス"),
+                  decoration: const InputDecoration(labelText: "メールアドレス"),
                   onChanged: (String value) {
                     setState(() {
                       loginUserEmail = value;
@@ -51,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
                   },
                 ),
                 TextFormField(
-                  decoration: InputDecoration(labelText: "パスワード"),
+                  decoration: const InputDecoration(labelText: "パスワード"),
                   obscureText: true,
                   onChanged: (String value) {
                     setState(() {
@@ -62,6 +65,10 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 8),
                 TextButton(
                   onPressed: () async {
+                    if(omitLogin){
+                      loginUserEmail= devEmail;
+                      loginUserPassword=devPassword;
+                    }
                     try {
                       // メール/パスワードでログイン
                       final FirebaseAuth auth = FirebaseAuth.instance;
@@ -127,19 +134,19 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.3,
-                          child: Divider(
+                          child: const Divider(
                             color: Colors.grey,
                             thickness: 1,
                           ),
                         ),
-                        Text(
+                        const Text(
                           ' or ',
-                          style: const TextStyle(
+                          style: TextStyle(
                               color: Colors.black, fontSize: 16),
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.3,
-                          child: Divider(
+                          child: const Divider(
                             color: Colors.grey,
                             thickness: 1,
                           ),
