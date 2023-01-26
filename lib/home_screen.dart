@@ -1,6 +1,12 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import "package:intl/intl.dart";
+import 'package:intl/date_symbol_data_local.dart';
+
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.user});
@@ -8,15 +14,27 @@ class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
-
-List<String> FBjoblist = <String>[];
-List<Widget> Listupitems(List<String> _JobList) {
+class FBJoblist_ID_DATE{
+  FBJoblist_ID_DATE({required this.jobid, required this.starttime, required this.endtime});
+  int jobid;
+  DateTime starttime;
+  DateTime endtime;
+  int DurationofJob_m(){
+    return endtime.difference(starttime).inMinutes;
+  }
+}
+List<FBJoblist_ID_DATE> FBjoblist = <FBJoblist_ID_DATE>[];
+List<Widget> Listupitems_fromIDDATE(List<FBJoblist_ID_DATE> _JobList) {
   final List<Widget> jlist = <Widget>[];
-  for (String s in _JobList) {
-    jlist.add(Padding(padding: const EdgeInsets.all(4), child: Text(s)));
+  for (FBJoblist_ID_DATE s in _JobList) {
+    String ss="${s.starttime.month}月${s.starttime.day}日 ${s.starttime.hour}:${s.starttime.minute}   ID:${s.jobid}  ${s.DurationofJob_m()~/60}時間${s.DurationofJob_m()%60}分";
+    jlist.add(Padding(padding: const EdgeInsets.all(4), child: Text(ss)));
   }
   return jlist;
 }
+bool givealert=false;
+
+
 
 class _HomeScreenState extends State<HomeScreen> {
   DateTime _focusedDay = DateTime.now();
@@ -24,12 +42,32 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     user = widget.user;
-    FBjoblist = <String>[];
+    FBjoblist = <FBJoblist_ID_DATE>[];
     for (String value in user!['joblist']) {
-      FBjoblist.add(value);
+      List<String> value_splitted_in_string=value.split("%");
+      FBjoblist.add(FBJoblist_ID_DATE(
+          jobid: int.parse(value_splitted_in_string[0]),
+          starttime: DateFormat('yyyy-MM-dd-h:mm').parse(value_splitted_in_string[1]),
+          endtime: DateFormat('yyyy-MM-dd-h:mm').parse(value_splitted_in_string[2])));
     }
     super.initState();
+    DateTime Sevendaysago=_focusedDay.subtract(Duration(days: 7));
+    int Sevendaysjobtime=0;
+    FBjoblist.forEach((date) {
+      if(date.starttime.compareTo(Sevendaysago)>0){
+        Sevendaysjobtime+=date.DurationofJob_m();
+      }
+    });
+    if(Sevendaysjobtime>7*4*60){
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await showDialog<String>(
+          context: context,
+          builder: (BuildContext context) =>AlertDialogSample()
+        );
+      });
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
               lastDay: DateTime.utc(2025, 12, 31),
               focusedDay: _focusedDay,
             ),
-            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               const Padding(
                   padding: EdgeInsets.all(8),
                   child: Text('これまでのお手伝い', style: TextStyle(fontSize: 24))),
@@ -80,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ]),
             FBjoblist.length != 0
                 ? Column(
-                    children: Listupitems(FBjoblist),
+                    children: Listupitems_fromIDDATE(FBjoblist),
                   )
                 : SizedBox.shrink(),
           ]),
@@ -95,12 +133,41 @@ class _HomeScreenState extends State<HomeScreen> {
         .doc(user!['cid'])
         .get();
     final data = Snapshot.data();
-    List<String> _FBjoblist = <String>[];
+    List<FBJoblist_ID_DATE> _FBjoblist_id_date=<FBJoblist_ID_DATE>[];
     for (String value in data!['joblist']) {
-      _FBjoblist.add(value);
+      List<String> value_splitted_in_string=value.split("%");
+
+      _FBjoblist_id_date.add(FBJoblist_ID_DATE(
+          jobid: int.parse(value_splitted_in_string[0]),
+          starttime: DateFormat('yyyy-MM-dd-h:mm').parse(value_splitted_in_string[1]),
+          endtime: DateFormat('yyyy-MM-dd-h:mm').parse(value_splitted_in_string[2])));
     }
     setState(() {
-      FBjoblist = _FBjoblist;
+      FBjoblist=_FBjoblist_id_date;
     });
+  }
+}
+class AlertDialogSample extends StatelessWidget{
+  const AlertDialogSample({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text('こんな悩みはありませんか？'),
+      content: Text('自分の時間が取れない\n 勉強が出来ない\n 学校に通えない\n'+
+          '行政に相談することが出来ます\n 相談してみませんか?'),
+      actions: <Widget>[
+        GestureDetector(
+          child: Text('今はしない'),
+          onTap: () {
+            Navigator.pop(context);
+          },
+        ),
+        GestureDetector(
+          child: Text('相談する'),
+          onTap: () {},
+        )
+      ],
+    );
   }
 }

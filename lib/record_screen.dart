@@ -332,7 +332,7 @@ class RecordPageState extends State<RecordPage> {
                                         .doc(user!['cid'])
                                         .update({
                                       'joblist': FieldValue.arrayUnion([
-                                        '$_jobID%${DateFormat('yyyy-MM-dd-Hm').format(_startTime!)}%${DateFormat('yyyy-MM-dd-Hm').format(_endTime!)}'
+                                        '$_jobID%${DateFormat('yyyy-MM-dd-H:m').format(_startTime!)}%${DateFormat('yyyy-MM-dd-H:m').format(_endTime!)}'
                                       ])
                                     });
                                     setState(() {
