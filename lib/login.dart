@@ -16,9 +16,9 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
 
   //デバッグ用ログイン省略
-  String devEmail="hiromochi12182@gmail.com";
-  String devPassword="mochimochi2";
-  bool omitLogin = false;
+  String devEmail="hiromochi12183@gmail.com";
+  String devPassword="mochimochi3";
+  bool omitLogin = true;
 
   String newUserEmail = "";
   // 入力されたパスワード
