@@ -62,7 +62,9 @@ class _HomeScreenState extends State<HomeScreen> {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         await showDialog<String>(
           context: context,
-          builder: (BuildContext context) =>AlertDialogSample()
+          builder: (BuildContext context) =>AlertDialogSample(
+            user:user
+          )
         );
       });
     }
@@ -148,26 +150,47 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 class AlertDialogSample extends StatelessWidget{
-  const AlertDialogSample({Key? key}) : super(key: key);
-
+  const AlertDialogSample({super.key, required this.user});
+  final Map<String, dynamic>? user;
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('こんな悩みはありませんか？'),
-      content: Text('自分の時間が取れない\n 勉強が出来ない\n 学校に通えない\n'+
-          '行政に相談することが出来ます\n 相談してみませんか?'),
-      actions: <Widget>[
-        GestureDetector(
-          child: Text('今はしない'),
-          onTap: () {
-            Navigator.pop(context);
-          },
-        ),
-        GestureDetector(
-          child: Text('相談する'),
-          onTap: () {},
+      title: SizedBox.shrink(),
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(16.0))),
+      content: SingleChildScrollView(
+        child:ListBody(
+          children: <Widget>[
+            user!['identity']=='子供'
+            ?Image.asset('images/alert_child.png')
+            :Image.asset('images/alert_parent.png'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop;
+                  },
+                  child:Text('今はしない'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    foregroundColor: Colors.black
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {},
+                  child:Text('相談してみる'),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      foregroundColor: Colors.white,
+                  ),
+                ),
+              ],
+            )
+          ],
         )
-      ],
+    ),
     );
   }
 }
