@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cyber_kaji_app/game_screen.dart';
 import 'package:cyber_kaji_app/home_screen.dart';
 import 'package:cyber_kaji_app/record_screen.dart';
 import 'package:cyber_kaji_app/mypage_screen.dart';
@@ -22,14 +23,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
 //ナビゲーションバーのウィジェット
   late final List _screens = [
-    HomeScreen(user:user),
-    RecordPage(user:user),
+    HomeScreen(user: user),
+    GameScreen(user: user),
+    RecordPage(user: user),
     MyPageScreen(user: user),
   ];
-  int _selectedIndex = 0;
+  int _selectedIndex = 2;
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      
     });
   }
 
@@ -44,6 +47,8 @@ class _MyHomePageState extends State<MyHomePage> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
               icon: Icon(Icons.home, size: 35), label: 'ホーム'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.pets, size: 35), label: 'ゲーム'),
           BottomNavigationBarItem(
               icon: Icon(Icons.edit_note_outlined, size: 35), label: '記録'),
           BottomNavigationBarItem(

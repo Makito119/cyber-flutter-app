@@ -156,7 +156,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         'email': newUserEmail,
                         'identity': identity,
                         'cid': _uid,
-                        'joblist':FieldValue.arrayUnion([]),
+                        'joblist': FieldValue.arrayUnion([]),
+                        'time': 0
                       });
                       final User user = result.user!;
                       print(user);

@@ -61,7 +61,7 @@ class _MyPageScreenState extends State<MyPageScreen> {
       appBar: AppBar(
         backgroundColor: const Color(0xffffcda8),
         title: const Text(
-          "My page",
+          "マイページ",
           style: TextStyle(color: Colors.black),
         ),
       ),
@@ -73,26 +73,36 @@ class _MyPageScreenState extends State<MyPageScreen> {
             //ユーザの名前を表示
             Padding(
               padding: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height * 0.1,
+                top: MediaQuery.of(context).size.height * 0.03,
               ),
-              child: Text('自分', style: const TextStyle(fontSize: 25.0)),
             ),
             Center(
               child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  height: MediaQuery.of(context).size.height * 0.3,
+                  width: MediaQuery.of(context).size.width * 0.95,
+                  height: MediaQuery.of(context).size.height * 0.23,
                   child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    color: Color(0xffd1e8ff),
+                    elevation: 10,
+                    shadowColor: Color(0xffd1e8ff),
                     child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('名前:${user!["name"]}',
+                          Text('  名前: ${user!["name"]}',
                               style: const TextStyle(fontSize: 25.0)),
-                          Text('身分:${user!["identity"]}',
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text('  身分: ${user!["identity"]}',
                               style: const TextStyle(fontSize: 25.0)),
-                          Text('メール:${user!["email"]}',
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(' メール: ${user!["email"]}',
                               style: const TextStyle(fontSize: 25.0)),
-                          Text('ID:${user!["cid"]}',
-                              style: const TextStyle(fontSize: 25.0))
                         ]),
                   )),
             ),

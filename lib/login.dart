@@ -14,10 +14,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   //デバッグ用ログイン省略
-  String devEmail="hiromochi12183@gmail.com";
-  String devPassword="mochimochi3";
+  String devEmail = "test4@gmail.com";
+  String devPassword = "12345678";
   bool omitLogin = true;
 
   String newUserEmail = "";
@@ -65,9 +64,9 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 8),
                 TextButton(
                   onPressed: () async {
-                    if(omitLogin){
-                      loginUserEmail= devEmail;
-                      loginUserPassword=devPassword;
+                    if (omitLogin) {
+                      loginUserEmail = devEmail;
+                      loginUserPassword = devPassword;
                     }
                     try {
                       // メール/パスワードでログイン
@@ -141,8 +140,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         const Text(
                           ' or ',
-                          style: TextStyle(
-                              color: Colors.black, fontSize: 16),
+                          style: TextStyle(color: Colors.black, fontSize: 16),
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.3,
@@ -178,8 +176,10 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const SignUpPage()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SignUpPage()));
                   },
                 ),
               ],

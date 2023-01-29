@@ -50,7 +50,7 @@ class RecordPageState extends State<RecordPage> {
       appBar: AppBar(
         backgroundColor: const Color(0xffffcda8),
         title: const Text(
-          '記録画面',
+          '記録',
           style: TextStyle(color: Colors.black),
         ),
       ),
@@ -321,19 +321,29 @@ class RecordPageState extends State<RecordPage> {
                           (subtractjobtime(_startTime, _endTime) != "--時間--分")
                               ? () async {
                                   try {
-                                    if (_selectedJob == _joblist[0])
-                                      _jobID = 0;
-                                    else if (_selectedJob == _joblist[1])
-                                      _jobID = 1;
-                                    else if (_selectedJob == _joblist[2])
-                                      _jobID = 2;
                                     await FirebaseFirestore.instance
                                         .collection('customers')
                                         .doc(user!['cid'])
                                         .update({
                                       'joblist': FieldValue.arrayUnion([
-                                        '$_jobID%${DateFormat('yyyy-MM-dd-H:m').format(_startTime!)}%${DateFormat('yyyy-MM-dd-H:m').format(_endTime!)}'
+                                        {
+                                          'time':
+                                              '${DateFormat('yyyy-MM-dd-H:m').format(_startTime!)}%${DateFormat('yyyy-MM-dd-H:m').format(_endTime!)}',
+                                          'job': _selectedJob
+                                        }
                                       ])
+                                    });
+                                    var a = await FirebaseFirestore.instance
+                                        .collection('customers')
+                                        .doc(user!['cid'])
+                                        .get();
+                                    double b = a['time'] +
+                                        subtracttime(_startTime, _endTime);
+                                    await FirebaseFirestore.instance
+                                        .collection('customers')
+                                        .doc(user!['cid'])
+                                        .update({
+                                      'time': double.parse(b.toStringAsFixed(2))
                                     });
                                     setState(() {
                                       recinfotext = "記録完了!";
@@ -406,8 +416,24 @@ class RecordPageState extends State<RecordPage> {
     }
   }
 
+  double subtracttime(DateTime? start, DateTime? end) {
+    int dif;
+    if (start != null && end != null) {
+      DateTime NLs = start;
+      DateTime NLe = end;
+      dif = NLe.difference(NLs).inMinutes;
+    } else {
+      dif = -1;
+    }
+    if (dif < 0) {
+      return 0;
+    } else {
+      return dif / 60;
+    }
+  }
+
   void waitsec() async {
-    await Future.delayed(Duration(seconds: 2), () {
+    await Future.delayed(Duration(seconds: 1), () {
       setState(() {
         recinfotext = "";
       });
